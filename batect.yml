@@ -1,0 +1,22 @@
+containers:
+
+  build-env:
+    image: amazoncorretto:11-alpine
+    working_directory: /app
+    ports:
+      - local: 8000
+        container: 8080
+    volumes:
+      - local: .
+        container: /app
+        options: cached
+      - type: cache
+        container: /home/build-env/.gradle
+        name: gradle-cache
+
+tasks:
+
+  run:
+    run:
+      container: build-env
+      command: ./gradlew bootRun -i
