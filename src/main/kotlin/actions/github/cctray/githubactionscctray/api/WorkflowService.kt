@@ -20,6 +20,8 @@ import javax.xml.datatype.DatatypeFactory
 @Service
 class WorkflowService(
     @Value("\${github.actions.fgpat}") private val token: String,
+    @Value("\${github.repo.owner.name}") private val repoOwnerName: String,
+    @Value("\${github.repo.name}") private val repoName: String,
     private val restTemplate: RestTemplate
 ) {
     fun getAllWorkflowLatestRuns(): Result<Projects> {
@@ -28,7 +30,7 @@ class WorkflowService(
 
         val entity = HttpEntity("body", headers)
         val response = restTemplate.exchange<ListWorkflowRuns>(
-            "https://api.github.com/repos/VSrinivasaRaghavan/resume-factory/actions/runs",
+            "https://api.github.com/repos/${repoOwnerName}/${repoName}/actions/runs",
             HttpMethod.GET,
             entity
         )
@@ -52,6 +54,7 @@ class WorkflowService(
         val project = Projects.Project()
         project.activity = when (workflowRun.status) {
             "queued" -> Activity.BUILDING.value
+            "in_progress" -> Activity.BUILDING.value
             else -> Activity.SLEEPING.value
         }
 
