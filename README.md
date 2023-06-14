@@ -8,7 +8,9 @@
 
 `export GITHUB_FGPAT={your token here}`
 
-### 4. Run the either of these commands to start the application that translate github actions 
+### 4. export REPO_OWNER_NAME (Repository owner name, the name before slash in the repo name) and REPO_NAME (Github repository whose workflow runs to be fetched) as environment variables
+
+### 5. Run the either of these commands to start the application that translate github actions 
 API response to a form CCMenu can understand.
 
 `./batect run`
